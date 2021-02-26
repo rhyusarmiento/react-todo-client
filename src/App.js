@@ -16,13 +16,14 @@ export default class App extends Component {
   }
 
   handleSubmit = (e) => {
+    e.preventDefault();
     axios({
-        method: "POST",
-        url: "https//localhost:5000/api/add-todo",
-        data: {
-            title: this.state.title,
-            done: false
-        },
+      method: "POST",
+      url: "https//localhost:5000/api/add-todo",
+      data: {
+        title: this.state.title,
+        done: false
+      },
     })
       .then(res => {
         console.log(res);
@@ -30,8 +31,6 @@ export default class App extends Component {
       .catch(err => {
         console.log(err);
       })
-
-    e.preventDefault();
   }
 
   render() {
