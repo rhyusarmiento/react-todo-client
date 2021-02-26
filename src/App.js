@@ -6,6 +6,7 @@ export default class App extends Component {
     super();
     this.state = {
       title: "",
+      todos: []
     }
   }
 
@@ -19,13 +20,33 @@ export default class App extends Component {
     e.preventDefault();
     axios({
       method: "POST",
-      url: "https//localhost:5000/api/add-todo",
+      url: "http://localhost:5000/api/add-todo",
       data: {
         title: this.state.title,
-        done: false
+        done: false,
       },
     })
+      .then((res) => {
+        this.setState({
+          todos: [res.data, ...this.state.todos],
+          title: ""
+        })
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  componentDidMount() {
+    axios({
+      method: "GET",
+      url: "http://localhost:5000/api/get-all-todos",
+    })
       .then(res => {
+        this.setState({
+          todos: res.data
+        })
         console.log(res);
       })
       .catch(err => {
@@ -35,7 +56,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <h1>Todo List</h1>
         <form onSubmit={this.handleSubmit} className="add-todo">
           <input
