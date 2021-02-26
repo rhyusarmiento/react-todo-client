@@ -1,12 +1,11 @@
 import { Component } from "react";
+import axios from 'axios'
 
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
       title: "",
-      done: false,
-      todos: []
     }
   }
 
@@ -17,8 +16,22 @@ export default class App extends Component {
   }
 
   handleSubmit = (e) => {
+    axios({
+        method: "POST",
+        url: "https//localhost:5000/api/add-todo",
+        data: {
+            title: this.state.title,
+            done: false
+        },
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
     e.preventDefault();
-    console.log("haah");
   }
 
   render() {
