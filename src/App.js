@@ -38,6 +38,18 @@ export default class App extends Component {
       })
   }
 
+  renderTodos = () => {
+    return this.state.todos.map(todo => {
+      return (
+        <div key={todo.id} className="todo-item">
+          <input type="checkbox"/>
+          <p>{todo.title}</p>
+          <button>X</button>
+        </div>
+      )
+    })
+  }
+
   componentDidMount() {
     axios({
       method: "GET",
@@ -67,9 +79,7 @@ export default class App extends Component {
           />
           <button type="submit">Add</button>
         </form>
-        <div>
-
-        </div>
+        {this.renderTodos()}
       </div>
     );
   }
