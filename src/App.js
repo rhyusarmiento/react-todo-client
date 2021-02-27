@@ -16,6 +16,23 @@ export default class App extends Component {
     })
   }
 
+  handleDelete = (id) => {
+    axios({
+      method: "DELETE",
+      url: `http://localhost:5000/api/delete-todo/${id}`
+    })
+      .then((res) => {
+        this.setState({
+          todos: this.state.todos.filter(todo => {
+            return todo.id !== id
+          })
+        })
+      })
+      .then((err) => {
+        console.log(err)
+      })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     axios({
@@ -31,7 +48,6 @@ export default class App extends Component {
           todos: [res.data, ...this.state.todos],
           title: ""
         })
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -44,7 +60,7 @@ export default class App extends Component {
         <div key={todo.id} className="todo-item">
           <input type="checkbox"/>
           <p>{todo.title}</p>
-          <button>X</button>
+          <button onClick={() => { this.handleDelete(todo.id) }}>X</button>
         </div>
       )
     })
