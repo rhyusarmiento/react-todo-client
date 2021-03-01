@@ -9,21 +9,21 @@ export default class TodoItem extends Component {
     }
 
     handleDone = () => {
-        fetch(`http://localhost:5000/api/edit-done/${this.props.todo.id}`, {
-            method: 'PATCH',
-            header: {"content-type": "application/json"},
-            body: JSON.stringify({
-                done: !this.state.done
-            })
+        fetch(`https://rs-flask-todo-api.herokuapp.com/api/edit-done/${this.props.todo.id}`, {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            done: !this.state.done,
+          }),
         })
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    done: data.done,
-                })
-            })
-            .catch(err => console.log(err))
-    }
+          .then((res) => res.json())
+          .then((data) => {
+            this.setState({
+              done: data.done,
+            });
+          })
+          .catch((err) => console.log(err));
+    };
     
     render() {
         const { id, title } = this.props.todo
