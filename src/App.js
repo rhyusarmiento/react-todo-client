@@ -13,7 +13,8 @@ export default class App extends Component {
     this.state = {
       title: "",
       todos: [],
-      isLoading: true
+      isLoading: true,
+      isSubmiting: false
     }
   }
 
@@ -41,6 +42,9 @@ export default class App extends Component {
   }
 
   handleSubmit = (e) => {
+    this.setState({
+      isSubmiting: true
+    })
     e.preventDefault();
     axios({
       method: "POST",
@@ -53,10 +57,14 @@ export default class App extends Component {
       .then((res) => {
         this.setState({
           todos: [res.data, ...this.state.todos],
-          title: ""
+          title: "",
+          isSubmiting: false
         })
       })
       .catch((err) => {
+        this.setState({
+          isSubmiting: false
+        })
         console.log(err);
       })
   }
@@ -91,12 +99,13 @@ export default class App extends Component {
         <h1>Todo List</h1>
         <form onSubmit={this.handleSubmit} className="add-todo">
           <input
+            required
             type="text"
             placeholder="Add Todo"
             value={this.state.title}
             onChange={this.handleChange}
           />
-          <button type="submit">Add</button>
+          <button disabled={this.state.isSubmiting} type="submit">Add</button>
         </form>
         {this.state.isLoading && <FontAwesomeIcon icon={faSpinner} spin className="main-spinner" />}
         {this.renderTodos()}
