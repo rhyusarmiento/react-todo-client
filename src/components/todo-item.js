@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { API_URL } from './../api/api'
 
 export default class TodoItem extends Component {
     constructor(props) {
@@ -9,7 +10,7 @@ export default class TodoItem extends Component {
     }
 
     handleDone = () => {
-        fetch(`https://rs-flask-todo-api.herokuapp.com/api/edit-done/${this.props.todo.id}`, {
+        fetch(`${API_URL}/edit-done/${this.props.todo.id}`, {
           method: "PATCH",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
