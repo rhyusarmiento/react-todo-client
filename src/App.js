@@ -1,14 +1,19 @@
 import { Component } from "react";
 import axios from 'axios'
-import TodoItem from './components/todo-item'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+
 import { API_URL } from './api/api'
+import TodoItem from './components/todo-item'
 
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
       title: "",
-      todos: []
+      todos: [],
+      isLoading: true
     }
   }
 
@@ -71,7 +76,8 @@ export default class App extends Component {
     })
       .then(res => {
         this.setState({
-          todos: res.data
+          todos: res.data,
+          isLoading: false
         })
       })
       .catch(err => {
@@ -92,6 +98,7 @@ export default class App extends Component {
           />
           <button type="submit">Add</button>
         </form>
+        {this.state.isLoading && <FontAwesomeIcon icon={faSpinner} spin className="main-spinner" />}
         {this.renderTodos()}
       </div>
     );
